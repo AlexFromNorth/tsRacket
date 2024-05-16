@@ -1,20 +1,42 @@
-import { test1, test3 } from "./types";
+import { Racket } from "./types";
 
-const qwer: test1 = {
-  q1: 12,
-  q2: "qwer",
-  q3: false,
-  q4: [123, 123, 12, 3, 123, 12, 31, 23],
-  q5: { w1: 123, w2: "123" },
-  q6: (p1) => {},
-};
+const canvas: HTMLElement | null = document.getElementById("canvas");
+let ctx: CanvasRenderingContext2D | null;
 
-(function test2(par1: number = 1, par2: string = "text"): string {
-  return par1 + par2;
-})();
+const canvasWidth:number = 800
+const canvasHeight:number = 500
 
-const test3: test3 = (par1, par2) => {
-  return par1 + par2;
-};
+let racket: Racket = {
+    x: canvasWidth/2,
+    y: canvasHeight/2,
+    width: 80,
+    height: 10,
+} 
+
+canvas?.addEventListener('mousemove', (el)=>{
+    console.log(el.offsetX)
+    racket.x = el.offsetX
+})
+
+if (canvas != null && canvas instanceof HTMLCanvasElement) {
+  ctx = canvas.getContext("2d");
+
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
+}
 
 
+
+function drawCanvas() {
+  if (ctx != null) {
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.fillStyle = `green`;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.fillStyle = `red`;
+    ctx.fillRect(racket.x - (racket.width/2), racket.y, racket.width, racket.height);
+  }
+  requestAnimationFrame(drawCanvas);
+}
+drawCanvas();
